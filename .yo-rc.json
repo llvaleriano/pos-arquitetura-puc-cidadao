@@ -1,0 +1,38 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "br.gov.bomdestino.cidadao"
+    },
+    "jhipsterVersion": "6.10.5",
+    "applicationType": "microservice",
+    "baseName": "cidadao",
+    "packageName": "br.gov.bomdestino.cidadao",
+    "packageFolder": "br/gov/bomdestino/cidadao",
+    "serverPort": "8081",
+    "authenticationType": "jwt",
+    "cacheProvider": "hazelcast",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "elasticsearch",
+    "messageBroker": "kafka",
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YjRjMWU0ZTkwYTBiMWY1YWUyZWJlZTAwZTJjZTVkODhmNmFiNGExMDJhYzYzMGI5ZTkxYzI5OWE4N2EzZTFmMzE2ZWM5MWUxZDNlZjRlZGU5ZWNiN2VhYmVmZWIxODQ0MDE3NTZmZjc4MDI2MDkwNGYyYjYwNjdmZDhmOWE5MmY=",
+    "embeddableLaunchScript": false,
+    "creationTimestamp": 1615494858261,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "clientPackageManager": "npm",
+    "blueprints": [],
+    "skipClient": true,
+    "skipUserManagement": true
+  }
+}

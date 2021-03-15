@@ -1,10 +1,48 @@
-# cidadao
+# Módulo de Serviços ao Cidadão
 
-This application was generated using JHipster 6.10.5, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v6.10.5](https://www.jhipster.tech/documentation-archive/v6.10.5).
+Essa aplicação é um microsserviço planejado para ser parte de uma arquitetura de microsserviços.
 
-This is a "microservice" application intended to be part of a microservice architecture, please refer to the [Doing microservices with JHipster][] page of the documentation for more information.
+Para que ela possa ser utilizada corretamente, alguns serviços de que ela depende devem estar corretamente configurados.
 
-This application is configured for Service Discovery and Configuration with the JHipster-Registry. On launch, it will refuse to start if it is not able to connect to the JHipster-Registry at [http://localhost:8761](http://localhost:8761). For more information, read our documentation on [Service Discovery and Configuration with the JHipster-Registry][].
+Esses serviços estão previamente configurados através de scripts para que sejam instanciados via docker ou docker-compose. A lista abaixo indica quais os serviços de que a aplicação depende:
+
+**1. JHipster registry**
+
+Através desse serviço temos a disposição o registro de serviço, descoberta de serviço e configuração centralizada.
+
+Iniciar com o comando:
+
+```
+docker run -p 8761:8761 --name puc_service_registry -d jhipster/jhipster-registry
+```
+
+**2. Postgresql**
+
+Servidor de banco de dados responsável pelo armazenamento dos dados desse microsserviço exclusivamente.  
+Iniciar com o comando abaixo, a partir do diretório raiz do projeto:
+
+```
+docker-compose -f src/main/docker/postgresql.yml up -d
+
+```
+
+**3. Kafka**
+
+Responsável pelo serviço de mensageria.  
+Iniciar com o comando abaixo, a partir do diretório raiz do projeto
+
+```
+docker-compose -f src/main/docker/kafka.yml up -d
+```
+
+**4. Elasticsearch**
+
+Responsável pela pesquisa centralizada de dados provenientes de todos os outros serviços.  
+Iniciar com o comando abaixo, a partir do diretório raiz do projeto
+
+```
+docker-compose -f src/main/docker/elasticsearch.yml up -d
+```
 
 ## Development
 

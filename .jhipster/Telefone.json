@@ -1,0 +1,40 @@
+{
+  "name": "Telefone",
+  "fields": [
+    {
+      "fieldName": "ddd",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "numero",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "cidadao",
+      "otherEntityRelationshipName": "telefones",
+      "relationshipName": "cidadao",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210313120824",
+  "entityTableName": "telefone",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "cidadao",
+  "applications": "*",
+  "microserviceName": "cidadao"
+}

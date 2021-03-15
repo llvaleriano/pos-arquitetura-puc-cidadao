@@ -1,0 +1,56 @@
+{
+  "name": "Cidadao",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "sexo",
+      "fieldType": "Sexo",
+      "fieldValues": "MASCULINO,FEMININO"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "nascimento",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "endereco",
+      "otherEntityRelationshipName": "cidadao",
+      "relationshipName": "endereco",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "telefone",
+      "otherEntityRelationshipName": "cidadao",
+      "relationshipName": "telefones"
+    }
+  ],
+  "changelogDate": "20210313120724",
+  "entityTableName": "cidadao",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "cidadao",
+  "applications": "*",
+  "microserviceName": "cidadao"
+}

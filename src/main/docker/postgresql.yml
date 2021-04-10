@@ -1,6 +1,7 @@
 version: '2'
 services:
   cidadao-postgresql:
+    container_name: postgresql-cidadao
     image: postgres:12.3
     # volumes:
     #     - ~/volumes/jhipster/cidadao/postgresql/:/var/lib/postgresql/data/

@@ -3,6 +3,7 @@ package br.gov.bomdestino.cidadao.domain;
 import br.gov.bomdestino.cidadao.domain.enumeration.Sexo;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,13 +12,10 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * A Cidadao.
- */
 @Entity
 @Table(name = "cidadao")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "cidadao")
+@Document(indexName = "cidadao")
 public class Cidadao implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,7 +40,7 @@ public class Cidadao implements Serializable {
     @Column(name = "nascimento")
     private LocalDate nascimento;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Endereco endereco;
 

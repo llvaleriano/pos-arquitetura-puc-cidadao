@@ -11,6 +11,14 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.WildcardQueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
@@ -47,15 +56,17 @@ public class CidadaoResource {
 
     private final CidadaoRepository cidadaoRepository;
     private final CidadaoSearchRepository cidadaoSearchRepository;
+    private RestHighLevelClient esClient;
 
     private final KafkaProperties kafkaProperties;
     private KafkaProducer<String, String> producer;
 
-    public CidadaoResource(CidadaoRepository cidadaoRepository, CidadaoSearchRepository cidadaoSearchRepository, KafkaProperties kafkaProperties) {
+    public CidadaoResource(CidadaoRepository cidadaoRepository, CidadaoSearchRepository cidadaoSearchRepository, KafkaProperties kafkaProperties, RestHighLevelClient esClient) {
         this.cidadaoRepository = cidadaoRepository;
         this.cidadaoSearchRepository = cidadaoSearchRepository;
         this.kafkaProperties = kafkaProperties;
         this.producer = new KafkaProducer<>(kafkaProperties.getProducerProps());
+        this.esClient = esClient;
     }
 
     @PostMapping("/cidadaos")
@@ -100,6 +111,14 @@ public class CidadaoResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/_search/cidadaos")
+    public ResponseEntity<List<Cidadao>> searchCidadaos(@RequestParam String query, Pageable pageable) throws IOException {
+        log.debug("Requisição REST para pesquisar Cidadãos no elasticsearch. Query: {}", query);
+        Page<Cidadao> page = cidadaoSearchRepository.search(queryStringQuery("*" + query + "*"), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     @GetMapping("/cidadaos/{id}")
     public ResponseEntity<Cidadao> getCidadao(@PathVariable Long id) {
         log.debug("Requisição REST para buscar um Cidadão : {}", id);
@@ -113,14 +132,6 @@ public class CidadaoResource {
         cidadaoRepository.deleteById(id);
         cidadaoSearchRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
-    }
-
-    @GetMapping("/_search/cidadaos")
-    public ResponseEntity<List<Cidadao>> searchCidadaos(@RequestParam String query, Pageable pageable) {
-        log.debug("Requisição REST para pesquisar uma página de Cidadãos. Query: {}", query);
-        Page<Cidadao> page = cidadaoSearchRepository.search(queryStringQuery(query), pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
 }
